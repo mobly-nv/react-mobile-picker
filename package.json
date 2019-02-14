@@ -5,7 +5,7 @@
   "main": "lib/react-mobile-picker.js",
   "repository": {
     "type": "git",
-    "url": "adcentury/react-mobile-picker"
+    "url": "mobly-nv/react-mobile-picker"
   },
   "dependencies": {
     "prop-types": "^15.7.2"
