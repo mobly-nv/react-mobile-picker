@@ -15,11 +15,16 @@ class PickerColumn extends Component {
 
   constructor(props) {
     super(props);
+
+    const { columnHeight, itemHeight, options, value } = props;
+
     this.state = {
+      minTranslate: columnHeight / 2 - itemHeight * options.length + itemHeight / 2,
+      maxTranslate: columnHeight / 2 - itemHeight / 2,
       isMoving: false,
-      startTouchY: 0,
+      scrollerTranslate: this.computeTranslate(value),
       startScrollerTranslate: 0,
-      ...this.computeTranslate(props.value)
+      startTouchY: 0,
     };
 
     this.pickerScrollerRef = React.createRef();
@@ -29,13 +34,6 @@ class PickerColumn extends Component {
   // ------------------------------------------------------------------------- /
   componentDidMount() {
     this.pickerScrollerRef.current.addEventListener('touchmove', this.handleTouchMove);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.isMoving) {
-      return;
-    }
-    this.setState(this.computeTranslate(nextProps));
   }
 
   componentWillUnmount() {
@@ -52,14 +50,13 @@ class PickerColumn extends Component {
       this.onValueSelected(options[0]);
       selectedIndex = 0;
     }
-    return {
-      scrollerTranslate: columnHeight / 2 - itemHeight / 2 - selectedIndex * itemHeight,
-      minTranslate: columnHeight / 2 - itemHeight * options.length + itemHeight / 2,
-      maxTranslate: columnHeight / 2 - itemHeight / 2
-    };
+    return columnHeight / 2 - itemHeight / 2 - selectedIndex * itemHeight;
   };
 
   onValueSelected = (newValue) => {
+    if (!this.state.isMoving) {
+      this.setState({ scrollerTranslate: this.computeTranslate(newValue) });
+    }
     this.props.onChange(this.props.name, newValue);
   };
 
