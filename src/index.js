@@ -69,7 +69,6 @@ class PickerColumn extends Component {
   };
 
   handleTouchMove = (event) => {
-    event.preventDefault();
     const touchY = event.targetTouches[0].pageY;
     this.setState(({isMoving, startTouchY, startScrollerTranslate, minTranslate, maxTranslate}) => {
       if (!isMoving) {
