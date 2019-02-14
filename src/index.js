@@ -19,8 +19,16 @@ class PickerColumn extends Component {
       isMoving: false,
       startTouchY: 0,
       startScrollerTranslate: 0,
-      ...this.computeTranslate(props)
+      ...this.computeTranslate(props.value)
     };
+
+    this.pickerScrollerRef = React.createRef();
+  }
+
+  // Lifecycle
+  // ------------------------------------------------------------------------- /
+  componentDidMount() {
+    this.pickerScrollerRef.current.addEventListener('touchmove', this.handleTouchMove);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,12 +38,17 @@ class PickerColumn extends Component {
     this.setState(this.computeTranslate(nextProps));
   }
 
-  computeTranslate = (props) => {
-    const {options, value, itemHeight, columnHeight} = props;
-    let selectedIndex = options.indexOf(value);
+  componentWillUnmount() {
+    this.pickerScrollerRef.current.removeEventListener('touchmove', this.handleTouchMove);
+  }
+
+  // Methods
+  // ------------------------------------------------------------------------- /
+  computeTranslate = (newValue) => {
+    const { columnHeight, itemHeight, options } = this.props;
+    let selectedIndex = options.indexOf(newValue);
     if (selectedIndex < 0) {
-      // throw new ReferenceError();
-      console.warn('Warning: "' + this.props.name+ '" doesn\'t contain an option of "' + value + '".');
+      console.warn('Warning: "' + this.props.name+ '" doesn\'t contain an option of "' + newValue + '".');
       this.onValueSelected(options[0]);
       selectedIndex = 0;
     }
@@ -124,6 +137,8 @@ class PickerColumn extends Component {
     }
   };
 
+  // Render
+  // ------------------------------------------------------------------------- /
   renderItems() {
     const {options, itemHeight, value} = this.props;
     return options.map((option, index) => {
@@ -157,10 +172,10 @@ class PickerColumn extends Component {
     return(
       <div className="picker-column">
         <div
+          ref={this.pickerScrollerRef}
           className="picker-scroller"
           style={style}
           onTouchStart={this.handleTouchStart}
-          onTouchMove={this.handleTouchMove}
           onTouchEnd={this.handleTouchEnd}
           onTouchCancel={this.handleTouchCancel}>
           {this.renderItems()}
