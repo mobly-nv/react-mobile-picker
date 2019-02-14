@@ -4,6 +4,11 @@
 
 This is a forked package of the original (which seems no longer maintained). Updated react, cleaned up code and fixed passive event listener error for touchmove.
 
+## TODO
+
+- [ ] Add tests
+- [ ] Update webpack and config
+
 React Mobile Picker is a super simple component with no restriction, which means you can use it in any way you want.
 
 ![screen-capture](./examples/screen-capture.gif)
