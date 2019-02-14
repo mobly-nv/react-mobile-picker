@@ -61,8 +61,8 @@
     "clean": "rimraf lib",
     "start": "node examples/server.js",
     "lint": "eslint src",
-    "build-examples": "rimraf examples/dist && eslint examples && set NODE_ENV=production && webpack --progress --hide-modules --config examples/webpack.build.js",
-    "build": "npm run clean && npm run lint && set NODE_ENV=production && webpack --progress --hide-modules --config webpack.build.js",
+    "build-examples": "rimraf examples/dist && eslint examples && webpack --progress --hide-modules --config examples/webpack.build.js",
+    "build": "npm run clean && npm run lint && webpack --progress --hide-modules --config webpack.build.js",
     "test": "npm run lint"
   },
   "author": {
